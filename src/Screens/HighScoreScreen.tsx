@@ -2,8 +2,65 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import SQLite from 'react-native-sqlite-storage';
 import { CommonStyles } from '../utility/Styles';
+// import { startTimer, stopTimer, calculateHighScore } from '../utility/utilities';
 
 export default function HighScoreScreen({navigation} : any) {
+
+    let timer: string | number | NodeJS.Timeout | null | undefined; // Variable to hold the timer
+    let gameTime = 0; // Variable to track game time in hundredths of a second
+
+    // Function to start the timer
+    function startTimer() {
+        // We'll need to start this timer with useState probably
+        // If the timer is already running, do nothing
+        if (timer) return;
+    
+        timer = setInterval(() => {
+        gameTime++; // Increment seconds      
+        }, 10); // Update every 10 milliseconds
+        console.log("timer started");
+    }
+    
+    // Function to stop the timer
+    function stopTimer() {
+        // Stop the timer. Probably call this function when the game is over, useState will be used here too? Either way it's just stopping the increments of gameTime
+        if (timer !== null) {
+            clearInterval(timer);
+        }
+        // Resets the timer variable for another game
+        timer = null;  
+        console.log("timer ended");   
+        console.log("game time: " + gameTime / 100) + " seconds";
+    }
+
+    // Function to calculate the high score
+    function calculateHighScore(gameTime: number) {
+        // Calculate the score based on time passed since game start with a maximum of 999,999
+        let score = 999999 - gameTime; 
+        gameTime = 0; // Reset the gameTime variable
+        // If the score is negative, set it to 0
+        if (score < 0) score = 0;
+        console.log(score);        
+        return score;
+        
+    }
+    
+    // function to insert a score into the database. call this function when the game is over a human player is the winner
+    function insertScore(name: string, score: number) {
+        db.transaction(tx => {
+        tx.executeSql(
+            'INSERT INTO HighScores (name, score) VALUES (?, ?)',
+            [name, score],
+            (tx, results) => {
+            console.log('Rows inserted successfully:', results.rowsAffected);
+            fetchScores();
+            },
+            (tx, error) => {
+            console.log('Error inserting rows:', error);
+            }
+        );
+        });
+    }
 
     interface Score {
         id: number;
@@ -116,10 +173,20 @@ export default function HighScoreScreen({navigation} : any) {
                 <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => navigation.navigate('Home')}>
                     Main Menu
                 </Text>
-                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => addDummyData()}>
+                {/* the following text blocks are for testing purposes only. enable and disable at will */}
+
+                {/* <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => addDummyData()}>
                     Populate
+                </Text>                
+                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => startTimer()}>
+                    Test Start
                 </Text>
-                {/* remove populate button if the database already exists on your ends */}
+                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => stopTimer()}>
+                    Test Stop
+                </Text>
+                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => calculateHighScore(gameTime)}>
+                    Test Score
+                </Text>                 */}
             </TouchableOpacity>  
         </View>
         
@@ -160,7 +227,6 @@ const styles = StyleSheet.create({
     scoreScore: {
         fontSize: 24,
         color: '#FFF',
-
         marginLeft: 305,
         marginTop: -28,
         textAlign: 'right'
