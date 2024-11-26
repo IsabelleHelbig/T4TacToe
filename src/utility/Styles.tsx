@@ -23,6 +23,6 @@ export const CommonStyles = StyleSheet.create({
     color: '#BC437A'
   },
   background: {
-    backgroundColor: '#1E1E1E'
+    backgroundColor: '#040420'
   }
 });
