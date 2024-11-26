@@ -12,7 +12,7 @@ export default function LandingScreen({navigation} : any) : React.JSX.Element {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Image source={require('../assets/tictactoe.png')} />
+        <Image source={require('../../assets/tictactoe.png')} />
     </TouchableOpacity>
   );
 };
