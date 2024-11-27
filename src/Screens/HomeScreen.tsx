@@ -3,32 +3,60 @@ import {
     View,
     Text,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 import { CommonStyles } from '../utility/Styles';
 
 export default function HomeScreen({navigation} : any) : React.JSX.Element {
     return (
-        <View style={CommonStyles.background}>
-            <Text style={[CommonStyles.text, CommonStyles.textPrimaryColor]}>
-                Test with common style primary color
-            </Text>
-            <Text style={[CommonStyles.text, CommonStyles.textSecondaryColor]}>
-                Test with common style secondary color
-            </Text>
-            <Text style={[CommonStyles.text, CommonStyles.textTertiaryColor]}>
-                Test with common style tertiary color
-            </Text>            
-            <TouchableOpacity onPress={() => navigation.navigate('Test')}>
-                <Text style={CommonStyles.textPrimaryColor}>
-                    Go to Test
+        <View style={[CommonStyles.background, styles.container]}>
+            <Image
+                source={require('../../assets/t4logo_.png')}
+                resizeMode="contain"
+                style={styles.logo}
+                />
+            <Image 
+                source={require('../../assets/tictactoe.png')}
+                resizeMode="contain"
+                style={styles.image}
+                />            
+            <TouchableOpacity onPress={() => navigation.navigate('1PName')}>
+                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
+                    1 Player
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('2PName')}>
+                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
+                    2 Player
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('High')}>
-                <Text style={CommonStyles.textSecondaryColor}>
-                    Go to HighScores
+                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
+                    HighScores
                 </Text>
             </TouchableOpacity>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+        width: '100%',
+        padding: 10,
+    },
+    logo: {
+        width: 110,
+        height: 110,
+        backgroundColor: "#040420",
+    },
+    image: {
+        alignSelf: 'center', 
+        height: 425,
+    },
+    align: {
+        textAlign: 'center',
+        paddingBottom: 25,
+    },
+}); 
