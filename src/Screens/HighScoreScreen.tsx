@@ -36,7 +36,7 @@ export default function HighScoreScreen({navigation} : any) {
     // Function to calculate the high score
     function calculateHighScore(gameTime: number) {
         // Calculate the score based on time passed since game start with a maximum of 999,999
-        let score = 999999 - gameTime; 
+        let score = 999999 - Math.floor(gameTime * 1.8916111102135) ; 
         gameTime = 0; // Reset the gameTime variable
         // If the score is negative, set it to 0
         if (score < 0) score = 0;
@@ -186,7 +186,7 @@ export default function HighScoreScreen({navigation} : any) {
                 </Text>
                 <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => calculateHighScore(gameTime)}>
                     Test Score
-                </Text>                 */}
+                </Text>  */}
             </TouchableOpacity>  
         </View>
         
