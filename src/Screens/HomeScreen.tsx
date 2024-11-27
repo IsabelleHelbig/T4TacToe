@@ -37,7 +37,7 @@ export default function HomeScreen({navigation} : any) : React.JSX.Element {
                     High Scores
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.alert} onPress={() => Alert.alert("T4-Tac-Toe", "Version 0.1 by T4\nFernando Horta\nIsabelle Hellbig\nShannon Hilland")}>
+            <TouchableOpacity style={styles.alert} onPress={() => Alert.alert("T4-Tac-Toe", "Version 1.0 by T4\n\nFernando Horta\nIsabelle Hellbig\nShannon Hilland\n\nCPRG303-H\nFall 2024")}>
                 <Text style={[CommonStyles.textTertiaryColor, CommonStyles.text, CommonStyles.sizeMedium]}>About</Text>
             </TouchableOpacity>
         </View>
