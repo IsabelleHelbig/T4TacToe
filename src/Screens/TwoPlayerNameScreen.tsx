@@ -4,11 +4,11 @@ import {
     Text,
 } from 'react-native';
 
-export default function HomeScreen() : React.JSX.Element {
+export default function TwoPlayerNameScreen() : React.JSX.Element {
     return (
         <View>
             <Text>
-                Yay Stack Navigation!
+                2 Player Name Screen - Go from here
             </Text>
         </View>
     );
