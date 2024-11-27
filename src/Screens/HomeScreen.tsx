@@ -4,7 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Image
+    Image,
+    Alert
 } from 'react-native';
 import { CommonStyles } from '../utility/Styles';
 
@@ -33,8 +34,11 @@ export default function HomeScreen({navigation} : any) : React.JSX.Element {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('High')}>
                 <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
-                    HighScores
+                    High Scores
                 </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.alert} onPress={() => Alert.alert("T4-Tac-Toe", "Version 0.1 by T4\nFernando Horta\nIsabelle Hellbig\nShannon Hilland")}>
+                <Text style={[CommonStyles.textTertiaryColor, CommonStyles.text, CommonStyles.sizeMedium]}>About</Text>
             </TouchableOpacity>
         </View>
     );
@@ -59,4 +63,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingBottom: 25,
     },
+    alert: {
+        position: 'absolute',
+        top: 20,
+        width: '100%',        
+        marginLeft: '85%',        
+    },    
 }); 
