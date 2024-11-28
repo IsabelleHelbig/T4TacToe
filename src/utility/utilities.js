@@ -23,7 +23,9 @@ export function stopTimer() {
     // Resets the timer variable for another game
     timer = null;     
     console.log("Timer stopped at " + gameTime + " seconds");
-    return gameTime;
+    let newtime = gameTime;
+    gameTime = 0;
+    return newtime;
 }
 
 // Function to calculate the high score
