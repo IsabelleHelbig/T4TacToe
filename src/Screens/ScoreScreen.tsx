@@ -22,18 +22,17 @@ const db = SQLite.openDatabase(
   }
 ); 
 
-export default function ScoreScreen({navigation}: any): React.JSX.Element {
+export default function ScoreScreen({route, navigation}: {route: any, navigation: any}): React.JSX.Element {
+  const { playername, PlayerWon } = route.params;
+  const gametime = route.params.gametime / 100;
+  const highscore = calculateHighScore(gametime);
+  
   const handleScreenPress = () => {
     insertHighScore(PlayerWon, highscore, playername);
     navigation.navigate('PostGame');
   };
-
-  const route = useRoute<{ key: string; name: string; params: { gametime: number, playername: string, PlayerWon: boolean } }>();
-  const gametime = route.params ? route.params.gametime / 100 : 0;
-  const playername = route.params ? route.params.playername: "";
-  const highscore = route.params ? calculateHighScore(route.params.gametime) : 0;
-  const PlayerWon = route.params ? route.params.PlayerWon : false;
-
+  
+  console.log('Score screen', gametime, playername, highscore, PlayerWon);
   function insertHighScore(PlayerWon: boolean, score: number, name: string) {
     if (PlayerWon === false) {
       return;
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   scoreCont: {
-    marginTop: 100,
+    marginTop: 50,
     alignItems: 'center',
   },
 });

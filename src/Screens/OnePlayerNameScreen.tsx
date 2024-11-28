@@ -14,7 +14,7 @@ import {CommonStyles} from '../utility/Styles';
 export default function OnePlayerNameScreen({
   navigation,
 }: any): React.JSX.Element {
-  const [playerName, setPlayerName] = useState('Player 1');
+  const [playerName, setPlayerName] = useState(''); //Need to have default empty for shake animation
   const shakeAnim = useRef(new Animated.Value(0)).current;
   const imageScale = useRef(new Animated.Value(1)).current;
   const imageTranslateY = useRef(new Animated.Value(0)).current;
@@ -53,6 +53,7 @@ export default function OnePlayerNameScreen({
     if (!playerName.trim()) {
       startShake();
     } else {
+      console.log('Name screen', playerName);
       navigation.navigate('1PGame', {playerName});
     }
   };
