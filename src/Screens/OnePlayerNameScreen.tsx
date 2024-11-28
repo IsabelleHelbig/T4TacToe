@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   StyleSheet,
   TextInput,

@@ -2,46 +2,81 @@ import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  StyleSheet,
   Image,
-  Alert,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {CommonStyles} from '../utility/Styles';
 
 export default function ScoreScreen({navigation}: any): React.JSX.Element {
+  const handleScreenPress = () => {
+    navigation.navigate('PostGame');
+  };
+
   return (
-    <View style={[CommonStyles.background]}>
-      {/* <Image
-                source={require('../../assets/t4logo_.png')}
-                resizeMode="contain"
-                style={styles.logo}
-                />
-            <Image 
-                source={require('../../assets/tictactoe.png')}
-                resizeMode="contain"
-                style={styles.image}
-                />            
-            <TouchableOpacity onPress={() => navigation.navigate('1PName')}>
-                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
-                    1 Player
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('2PName')}>
-                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
-                    2 Player
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('High')}>
-                <Text style={[CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge, styles.align]}>
-                    High Scores
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.alert} onPress={() => Alert.alert("T4-Tac-Toe", "Version 1.0 by T4\n\nFernando Horta\nIsabelle Hellbig\nShannon Hilland\n\nCPRG303-H\nFall 2024")}>
-                <Text style={[CommonStyles.textTertiaryColor, CommonStyles.text, CommonStyles.sizeMedium]}>About</Text>
-            </TouchableOpacity> */}
-    </View>
+    <TouchableWithoutFeedback onPress={handleScreenPress}>
+      <View style={[CommonStyles.background, styles.container]}>
+        <Image
+          source={require('../../assets/t4logo_.png')}
+          resizeMode="contain"
+          style={[styles.logo]}
+        />
+        <Image
+          source={require('../../assets/tictactoe.png')}
+          resizeMode="contain"
+          style={[styles.image]}
+        />
+        <View style={styles.lowerCont}>
+          <Text
+            style={[
+              CommonStyles.text,
+              CommonStyles.textPrimaryColor,
+              CommonStyles.sizeLarge,
+            ]}>
+            Time: INSERT TIME
+          </Text>
+          <View style={styles.scoreCont}>
+            <Text
+              style={[
+                CommonStyles.text,
+                CommonStyles.textPrimaryColor,
+                CommonStyles.sizeLarge,
+              ]}>
+              Score
+            </Text>
+            <Text
+              style={[
+                CommonStyles.text,
+                CommonStyles.textPrimaryColor,
+                CommonStyles.sizeLarge,
+              ]}>
+              INSERT SCORE
+            </Text>
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  logo: {
+    width: 110,
+    height: 110,
+    backgroundColor: '#040420',
+  },
+  image: {
+    alignSelf: 'center',
+    height: 425,
+  },
+  lowerCont: {
+    alignItems: 'center',
+  },
+  scoreCont: {
+    marginTop: 100,
+    alignItems: 'center',
+  },
+});
