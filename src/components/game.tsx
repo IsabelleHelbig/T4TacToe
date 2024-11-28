@@ -119,16 +119,15 @@ function Board({
   );
 }
 
-export default function Game({navigation}: any) {
+export default function Game({navigation, playername}: {navigation: any, playername: string}) {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false); // Track game over state
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const [isThinking, setIsThinking] = useState(false);
-  const route = useRoute<{ key: string; name: string; params: { playername: string } }>();
-  const playername = route.params ? route.params.playername : "Player 1"; 
    
+  console.log('game screen', playername);
 
   useEffect(() => {
     // Automatically make a move for the computer when it's its turn
