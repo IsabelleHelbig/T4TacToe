@@ -36,8 +36,3 @@ export function calculateHighScore(gameTime) {
     return score;
 }  
 
-export function winner(playername) {
-    // Function to determine if the player has won the game
-    // If the player has won, return true, otherwise return false
-    return true;
-}

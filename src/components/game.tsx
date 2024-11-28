@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {CommonStyles} from '../utility/Styles';
-import { startTimer, stopTimer, winner } from '../utility/utilities';
+import { startTimer, stopTimer } from '../utility/utilities';
 import { useRoute } from '@react-navigation/native';
 
 let PlayerWon = false;
