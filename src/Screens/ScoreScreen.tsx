@@ -7,11 +7,50 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {CommonStyles} from '../utility/Styles';
+import { calculateHighScore } from '../utility/utilities';
+import { useRoute } from '@react-navigation/native';
+import SQLite from 'react-native-sqlite-storage';
+
+const db = SQLite.openDatabase(
+  {
+    name: 'highscores.db',
+    location: 'default',
+  },
+  () => {},
+  error => {
+    console.log(error);
+  }
+); 
 
 export default function ScoreScreen({navigation}: any): React.JSX.Element {
   const handleScreenPress = () => {
+    insertHighScore(PlayerWon, highscore, playername);
     navigation.navigate('PostGame');
   };
+
+  const route = useRoute<{ key: string; name: string; params: { gametime: number, playername: string, PlayerWon: boolean } }>();
+  const gametime = route.params ? route.params.gametime / 100 : 0;
+  const playername = route.params ? route.params.playername: "";
+  const highscore = route.params ? calculateHighScore(route.params.gametime) : 0;
+  const PlayerWon = route.params ? route.params.PlayerWon : false;
+
+  function insertHighScore(PlayerWon: boolean, score: number, name: string) {
+    if (PlayerWon === false) {
+      return;
+    }   
+    db.transaction(tx => {
+    tx.executeSql(
+        'INSERT INTO HighScores (name, score) VALUES (?, ?)',
+        [name, score],
+        (tx, results) => {
+        console.log('Rows inserted successfully:', results.rowsAffected);        
+        },
+        (tx, error) => {
+        console.log('Error inserting rows:', error);
+        }
+    );
+    });
+  }
 
   return (
     <TouchableWithoutFeedback onPress={handleScreenPress}>
@@ -33,9 +72,17 @@ export default function ScoreScreen({navigation}: any): React.JSX.Element {
               CommonStyles.textPrimaryColor,
               CommonStyles.sizeLarge,
             ]}>
-            Time: INSERT TIME
+            Time: {gametime}s
           </Text>
           <View style={styles.scoreCont}>
+          <Text
+              style={[
+                CommonStyles.text,
+                CommonStyles.textPrimaryColor,
+                CommonStyles.sizeLarge,
+              ]}>
+              {playername}
+            </Text>
             <Text
               style={[
                 CommonStyles.text,
@@ -50,7 +97,7 @@ export default function ScoreScreen({navigation}: any): React.JSX.Element {
                 CommonStyles.textPrimaryColor,
                 CommonStyles.sizeLarge,
               ]}>
-              INSERT SCORE
+              {highscore}
             </Text>
           </View>
         </View>

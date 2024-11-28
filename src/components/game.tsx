@@ -7,6 +7,11 @@ import {
   ImageBackground,
 } from 'react-native';
 import {CommonStyles} from '../utility/Styles';
+import { startTimer, stopTimer, winner } from '../utility/utilities';
+import { useRoute } from '@react-navigation/native';
+
+let PlayerWon = false;
+
 
 function Square({value, onSquareClick}: {value: any; onSquareClick: any}) {
   return (
@@ -53,10 +58,14 @@ function Board({
     onPlay(nextSquares);
   }
 
+  
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
     status = winner === 'X' ? 'You won!' : 'You lost!';
+    if(winner === 'X') {
+      PlayerWon = true;
+    }
   } else {
     status = xIsNext ? 'Your Turn' : "Computer's Turn";
   }
@@ -117,6 +126,9 @@ export default function Game({navigation}: any) {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const [isThinking, setIsThinking] = useState(false);
+  const route = useRoute<{ key: string; name: string; params: { playername: string } }>();
+  const playername = route.params ? route.params.playername : "Player 1"; 
+   
 
   useEffect(() => {
     // Automatically make a move for the computer when it's its turn
@@ -145,12 +157,13 @@ export default function Game({navigation}: any) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-
+    startTimer(); // Start timer for the next move
     // Check if game has ended
     if (calculateWinner(nextSquares)) {
       setIsGameOver(true);
+      let gametime = stopTimer();      
       setTimeout(() => {
-        navigation.navigate('Score'); // Navigate to ScoreScreen after 2 seconds
+        navigation.navigate('Score', {gametime, playername, PlayerWon}); // Navigate to ScoreScreen after 2 seconds
       }, 2000);
     } else {
       setIsGameOver(false);

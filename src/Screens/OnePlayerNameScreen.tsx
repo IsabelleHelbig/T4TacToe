@@ -14,7 +14,7 @@ import {CommonStyles} from '../utility/Styles';
 export default function OnePlayerNameScreen({
   navigation,
 }: any): React.JSX.Element {
-  const [playerName, setPlayerName] = useState('');
+  const [playerName, setPlayerName] = useState('Player 1');
   const shakeAnim = useRef(new Animated.Value(0)).current;
   const imageScale = useRef(new Animated.Value(1)).current;
   const imageTranslateY = useRef(new Animated.Value(0)).current;
