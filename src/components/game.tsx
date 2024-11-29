@@ -11,6 +11,7 @@ import { startTimer, stopTimer } from '../utility/utilities';
 import { useRoute } from '@react-navigation/native';
 
 var PlayerWon = "O";
+var winnerName = "";
 
 
 function Square({value, onSquareClick}: {value: any; onSquareClick: any}) {
@@ -36,36 +37,60 @@ function Board({
   onPlay,
   isGameOver,
   isThinking,
+  firstPlayer,
+  secondPlayer
 }: {
   xIsNext: boolean;
   squares: any;
   onPlay: any;
   isGameOver: boolean;
   isThinking: boolean;
+  firstPlayer: string;
+  secondPlayer: string;
 }) {
   function handleClick(i: number) {
-    if (
-      calculateWinner(squares) ||
-      squares[i] ||
-      isGameOver ||
-      isThinking ||
-      !xIsNext
-    ) {
-      return;
+    if(secondPlayer === '') {
+      if (
+        calculateWinner(squares) ||
+        squares[i] ||
+        isGameOver ||
+        isThinking ||
+        !xIsNext
+      ) {
+        return;
+      }
+      const nextSquares = squares.slice();
+      nextSquares[i] = 'X';
+      onPlay(nextSquares);
     }
-    const nextSquares = squares.slice();
-    nextSquares[i] = 'X';
-    onPlay(nextSquares);
+    else {
+      const nextSquares = squares.slice();
+      nextSquares[i] = xIsNext ? 'X' : 'O';
+      onPlay(nextSquares);
+    }
   }
 
   
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = winner === 'X' ? 'You won!' : 'You lost!';
+    if(secondPlayer === '') {
+      status = winner === 'X' ? `${firstPlayer} won!` : 'You lost!';  
+    } 
+    else {
+      status = winner === 'X' ? `${firstPlayer} won!` : `${secondPlayer} won!`;
+    }
     PlayerWon = winner;
-  } else {
-    status = xIsNext ? 'Your Turn' : "Computer's Turn";
+    winner === 'X' ? winnerName = firstPlayer : winnerName = secondPlayer;
+    
+  } 
+  else {
+    if(secondPlayer === '') {
+      status = xIsNext ? 'Your Turn' : "Computer's Turn";
+    } 
+    else {
+      status = xIsNext ? `${firstPlayer}'s Turn` : `${secondPlayer}'s Turn` ;
+    }
   }
 
   return (
@@ -117,7 +142,7 @@ function Board({
   );
 }
 
-export default function Game({navigation, playername}: {navigation: any, playername: string}) {
+export default function Game({navigation, firstPlayer, secondPlayer}: {navigation: any, firstPlayer: string, secondPlayer: string}) {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false); // Track game over state
@@ -125,30 +150,32 @@ export default function Game({navigation, playername}: {navigation: any, playern
   const currentSquares = history[currentMove];
   const [isThinking, setIsThinking] = useState(false);
    
-  console.log('game screen', playername);
+  console.log(`game screen, first player ${firstPlayer}, second player ${secondPlayer}`);
 
-  useEffect(() => {
-    // Automatically make a move for the computer when it's its turn
-    if (!xIsNext && !isGameOver) {
-      setIsThinking(true);
-      setTimeout(() => {
-        const availableSquares = currentSquares
-          .map((value, index) => (value === null ? index : null))
-          .filter(index => index !== null);
+  if (secondPlayer === '') {
+    useEffect(() => {
+      // Automatically make a move for the computer when it's its turn
+      if (!xIsNext && !isGameOver) {
+        setIsThinking(true);
+        setTimeout(() => {
+          const availableSquares = currentSquares
+            .map((value, index) => (value === null ? index : null))
+            .filter(index => index !== null);
 
-        if (availableSquares.length > 0) {
-          const randomIndex =
-            availableSquares[
-              Math.floor(Math.random() * availableSquares.length)
-            ];
-          const nextSquares = currentSquares.slice();
-          nextSquares[randomIndex] = 'O';
-          handlePlay(nextSquares);
-        }
-        setIsThinking(false); // Stop thinking message
-      }, 500); // .5second delay for thinking
-    }
-  }, [xIsNext, currentSquares, isGameOver]); // Trigger when it's computer's turn
+          if (availableSquares.length > 0) {
+            const randomIndex =
+              availableSquares[
+                Math.floor(Math.random() * availableSquares.length)
+              ];
+            const nextSquares = currentSquares.slice();
+            nextSquares[randomIndex] = 'O';
+            handlePlay(nextSquares);
+          }
+          setIsThinking(false); // Stop thinking message
+        }, 500); // .5second delay for thinking
+      }
+    }, [xIsNext, currentSquares, isGameOver]); // Trigger when it's computer's turn
+  }
 
   function handlePlay(nextSquares: any) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -160,7 +187,7 @@ export default function Game({navigation, playername}: {navigation: any, playern
       setIsGameOver(true);
       let gametime = stopTimer();      
       setTimeout(() => {
-        navigation.navigate('Score', {gametime, playername, PlayerWon}); // Navigate to ScoreScreen after 2 seconds
+        navigation.navigate('Score', {gametime, winnerName, PlayerWon}); // Navigate to ScoreScreen after 2 seconds
       }, 2000);
     } else {
       setIsGameOver(false);
@@ -179,6 +206,8 @@ export default function Game({navigation, playername}: {navigation: any, playern
         onPlay={handlePlay}
         isGameOver={isGameOver}
         isThinking={isThinking}
+        firstPlayer={firstPlayer}
+        secondPlayer={secondPlayer}
       />
     </ImageBackground>
   );

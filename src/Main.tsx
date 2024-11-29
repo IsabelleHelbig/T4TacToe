@@ -9,6 +9,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import OnePlayerNameScreen from './Screens/OnePlayerNameScreen';
 import TwoPlayerNameScreen from './Screens/TwoPlayerNameScreen';
 import OnePlayerGameScreen from './Screens/OnePlayerGameScreen';
+import TwoPlayerGameScreen from './Screens/TwoPlayerGameScreen';
 import ScoreScreen from './Screens/ScoreScreen';
 import PostGame from './Screens/PostGameScreen';
 
@@ -30,6 +31,7 @@ function Main(): React.JSX.Element {
         <Stack.Screen name="1PGame" component={OnePlayerGameScreen} />
         <Stack.Screen name="Score" component={ScoreScreen} />
         <Stack.Screen name="PostGame" component={PostGame} />
+        <Stack.Screen name="2PGame" component={TwoPlayerGameScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
