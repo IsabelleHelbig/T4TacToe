@@ -25,18 +25,19 @@ const db = SQLite.openDatabase(
 export default function ScoreScreen({route, navigation}: {route: any, navigation: any}): React.JSX.Element {
   const { playername, PlayerWon } = route.params;
   const gametime = route.params.gametime / 100;
-  const highscore = calculateHighScore(gametime);
+  const score = PlayerWon == "X" ? calculateHighScore(gametime * 100) : 0;
+  
   
   const handleScreenPress = () => {
-    insertHighScore(PlayerWon, highscore, playername);
-    navigation.navigate('PostGame');
+    insertHighScore(PlayerWon, score, playername);
+    navigation.navigate('PostGame', {playername});
   };
   
-  console.log('Score screen', gametime, playername, highscore, PlayerWon);
-  function insertHighScore(PlayerWon: boolean, score: number, name: string) {
-    if (PlayerWon === false) {
+  console.log('Score screen', gametime, playername, score, PlayerWon);
+  function insertHighScore(PlayerWon: string, score: number, name: string) {
+    if (PlayerWon == "O") {
       return;
-    }   
+    }       
     db.transaction(tx => {
     tx.executeSql(
         'INSERT INTO HighScores (name, score) VALUES (?, ?)',
@@ -48,7 +49,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
         console.log('Error inserting rows:', error);
         }
     );
-    });
+    });    
   }
 
   return (
@@ -73,15 +74,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
             ]}>
             Time: {gametime}s
           </Text>
-          <View style={styles.scoreCont}>
-          <Text
-              style={[
-                CommonStyles.text,
-                CommonStyles.textPrimaryColor,
-                CommonStyles.sizeLarge,
-              ]}>
-              {playername}
-            </Text>
+          <View style={styles.scoreCont}>          
             <Text
               style={[
                 CommonStyles.text,
@@ -96,7 +89,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
                 CommonStyles.textPrimaryColor,
                 CommonStyles.sizeLarge,
               ]}>
-              {highscore}
+              {score}
             </Text>
           </View>
         </View>
@@ -125,4 +118,5 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignItems: 'center',
   },
+  
 });

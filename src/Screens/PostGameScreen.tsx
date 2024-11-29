@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {CommonStyles} from '../utility/Styles';
+import { useRoute } from '@react-navigation/native';
 
 export default function PostGame({navigation}: any): React.JSX.Element {
+  // const {playername} = navigation.state.params;
+  
   const playPress = () => {
-    navigation.navigate('1PGame');
+    navigation.navigate('1PName');
   };
 
   const menuPress = () => {

@@ -10,7 +10,7 @@ import {CommonStyles} from '../utility/Styles';
 import { startTimer, stopTimer } from '../utility/utilities';
 import { useRoute } from '@react-navigation/native';
 
-let PlayerWon = false;
+var PlayerWon = "O";
 
 
 function Square({value, onSquareClick}: {value: any; onSquareClick: any}) {
@@ -63,9 +63,7 @@ function Board({
   let status;
   if (winner) {
     status = winner === 'X' ? 'You won!' : 'You lost!';
-    if(winner === 'X') {
-      PlayerWon = true;
-    }
+    PlayerWon = winner;
   } else {
     status = xIsNext ? 'Your Turn' : "Computer's Turn";
   }

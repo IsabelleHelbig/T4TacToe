@@ -43,7 +43,7 @@ export default function HighScoreScreen({navigation} : any) {
         console.log(score);        
         return score;
         
-    }
+    }   
     
     // function to insert a score into the database. call this function when the game is over a human player is the winner
     function insertScore(name: string, score: number) {
@@ -57,6 +57,23 @@ export default function HighScoreScreen({navigation} : any) {
             },
             (tx, error) => {
             console.log('Error inserting rows:', error);
+            }
+        );
+        });
+    }
+
+    // function to clear the database.
+    function clearDatabase() {
+        db.transaction(tx => {
+        tx.executeSql(
+            'DELETE FROM HighScores',
+            [],
+            (tx, results) => {
+            console.log('Rows deleted successfully:', results.rowsAffected);
+            fetchScores();
+            },
+            (tx, error) => {
+            console.log('Error deleting rows:', error);
             }
         );
         });
@@ -170,23 +187,22 @@ export default function HighScoreScreen({navigation} : any) {
                 </View>}
         />         
             <TouchableOpacity>
+            
                 <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => navigation.navigate('Home')}>
                     Main Menu
                 </Text>
+                
                 {/* the following text blocks are for testing purposes only. enable and disable at will */}
 
-                {/* <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => addDummyData()}>
+                {/* 
+                
+                <Text style={[styles.back, CommonStyles.textTertiaryColor, CommonStyles.text, CommonStyles.sizeMedium]} onPress={() => clearDatabase()}>
+                    Clear Scores 
+                </Text>                
+                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => addDummyData()}>
                     Populate
                 </Text>                
-                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => startTimer()}>
-                    Test Start
-                </Text>
-                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => stopTimer()}>
-                    Test Stop
-                </Text>
-                <Text style={[styles.back, CommonStyles.textPrimaryColor, CommonStyles.text, CommonStyles.sizeLarge]} onPress={() => calculateHighScore(gameTime)}>
-                    Test Score
-                </Text>  */}
+                  */}
             </TouchableOpacity>  
         </View>
         
@@ -236,5 +252,5 @@ const styles = StyleSheet.create({
         marginLeft: 100,
         fontSize: 32,
         color: '#F9D7A1',
-    },    
+    }   
 });
