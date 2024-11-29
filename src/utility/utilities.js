@@ -31,7 +31,7 @@ export function stopTimer() {
 // Function to calculate the high score
 export function calculateHighScore(gameTime) {
     // Calculate the score based on time passed since game start with a maximum of 999,999
-    let score = 999999 - Math.floor(gameTime * 1.8916111102135) ; 
+    let score = 999999 - Math.floor(gameTime * gameTime * 0.8916111102135) ; 
     gameTime = 0; // Reset the gameTime variable
     // If the score is negative, set it to 0
     if (score < 0) score = 0;
