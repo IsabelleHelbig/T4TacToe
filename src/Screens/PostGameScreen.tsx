@@ -3,12 +3,17 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import {CommonStyles} from '../utility/Styles';
 import { useRoute } from '@react-navigation/native';
 
-export default function PostGame({navigation}: any): React.JSX.Element {
+export default function PostGame({route, navigation}: {route: any, navigation: any}): React.JSX.Element {
   // const {playername} = navigation.state.params;
+  const { winnerName, gametype, firstPlayer, secondPlayer } = route.params;
   
   const playPress = () => {
-    navigation.navigate('1PName');
+    if (gametype === '1P') {
+      navigation.navigate('1PGame', {firstPlayer});
+    } else {
+    navigation.navigate('2PGame', {firstPlayer, secondPlayer});
   };
+}
 
   const menuPress = () => {
     navigation.navigate('Home');

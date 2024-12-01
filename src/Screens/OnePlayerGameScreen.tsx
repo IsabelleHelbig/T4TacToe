@@ -5,7 +5,7 @@ import {CommonStyles} from '../utility/Styles';
 
 export default function OnePlayerGameScreen({route, navigation}: {route: any, navigation: any;
 }): React.JSX.Element {
-  const firstPlayer = route.params.playerName;
+  const firstPlayer = route.params.firstPlayer;
   const secondPlayer = '';
   console.log('1p game screen', firstPlayer);
   return (

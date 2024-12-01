@@ -12,6 +12,7 @@ import { useRoute } from '@react-navigation/native';
 
 var PlayerWon = "O";
 var winnerName = "";
+var gametype = "";
 
 
 function Square({value, onSquareClick}: {value: any; onSquareClick: any}) {
@@ -75,10 +76,12 @@ function Board({
   let status;
   if (winner) {
     if(secondPlayer === '') {
-      status = winner === 'X' ? `${firstPlayer} won!` : 'You lost!';  
+      status = winner === 'X' ? `${firstPlayer} won!` : 'You lost!'; 
+      gametype = "1P"; 
     } 
     else {
       status = winner === 'X' ? `${firstPlayer} won!` : `${secondPlayer} won!`;
+      gametype = "2P";
     }
     PlayerWon = winner;
     winner === 'X' ? winnerName = firstPlayer : winnerName = secondPlayer;
@@ -187,7 +190,13 @@ export default function Game({navigation, firstPlayer, secondPlayer}: {navigatio
       setIsGameOver(true);
       let gametime = stopTimer();      
       setTimeout(() => {
-        navigation.navigate('Score', {gametime, winnerName, PlayerWon}); // Navigate to ScoreScreen after 2 seconds
+      navigation.navigate('Score', {gametime, winnerName, PlayerWon, gametype, firstPlayer, secondPlayer}); // Navigate to ScoreScreen after 2 seconds
+      }, 2000);
+    } else if (!nextSquares.includes(null)) {
+      setIsGameOver(true);
+      let gametime = stopTimer();
+      setTimeout(() => {
+      navigation.navigate('Score', {gametime, winnerName: 'Draw', PlayerWon: 'Draw', gametype, firstPlayer, secondPlayer}); // Navigate to ScoreScreen after 2 seconds
       }, 2000);
     } else {
       setIsGameOver(false);

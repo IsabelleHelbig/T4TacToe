@@ -23,14 +23,14 @@ const db = SQLite.openDatabase(
 ); 
 
 export default function ScoreScreen({route, navigation}: {route: any, navigation: any}): React.JSX.Element {
-  const { winnerName, PlayerWon } = route.params;
+  const { winnerName, PlayerWon, gametype, firstPlayer, secondPlayer } = route.params;
   const gametime = route.params.gametime / 100;
   const score = PlayerWon == "X" ? calculateHighScore(gametime * 100) : 0;
   
   
   const handleScreenPress = () => {
     insertHighScore(PlayerWon, score, winnerName);
-    navigation.navigate('PostGame', {winnerName});
+    navigation.navigate('PostGame', {winnerName, gametype, firstPlayer, secondPlayer});
   };
   
   console.log('Score screen', gametime, winnerName, score, PlayerWon);
