@@ -24,9 +24,16 @@ const db = SQLite.openDatabase(
 
 export default function ScoreScreen({route, navigation}: {route: any, navigation: any}): React.JSX.Element {
   const { winnerName, PlayerWon, gametype, firstPlayer, secondPlayer } = route.params;
-  const gametime = route.params.gametime / 100;
-  const score = PlayerWon == "X" ? calculateHighScore(gametime * 100) : 0;
+  const gametime = route.params.gametime;
   
+  if (PlayerWon == "X" && gametype == "1P" || gametype == "2P") {
+    var localscore = calculateHighScore(gametime);
+  }
+  else {
+    var localscore = 0;
+  }
+
+  const score = localscore;
   
   const handleScreenPress = () => {
     insertHighScore(PlayerWon, score, winnerName);
@@ -35,7 +42,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
   
   console.log('Score screen', gametime, winnerName, score, PlayerWon);
   function insertHighScore(PlayerWon: string, score: number, name: string) {
-    if (PlayerWon == "O") {
+    if (PlayerWon == "O" && gametype == "1P") {
       return;
     }       
     db.transaction(tx => {
@@ -72,7 +79,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
               CommonStyles.textPrimaryColor,
               CommonStyles.sizeLarge,
             ]}>
-            Time: {gametime}s
+            Time: {gametime / 100}s
           </Text>
           <View style={styles.scoreCont}>          
             <Text
