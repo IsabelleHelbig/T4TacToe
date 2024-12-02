@@ -26,7 +26,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
   const { winnerName, PlayerWon, gametype, firstPlayer, secondPlayer } = route.params;
   const gametime = route.params.gametime;
   
-  if (PlayerWon == "X" && gametype == "1P" || gametype == "2P") {
+if (PlayerWon == "X" && gametype == "1P" || gametype == "2P" && PlayerWon !== "Draw") {
     var localscore = calculateHighScore(gametime);
   }
   else {
@@ -42,7 +42,7 @@ export default function ScoreScreen({route, navigation}: {route: any, navigation
   
   console.log('Score screen', gametime, winnerName, score, PlayerWon);
   function insertHighScore(PlayerWon: string, score: number, name: string) {
-    if (PlayerWon == "O" && gametype == "1P") {
+    if (PlayerWon == "O" && gametype == "1P" || PlayerWon == "Draw" && winnerName == "Draw") {
       return;
     }       
     db.transaction(tx => {

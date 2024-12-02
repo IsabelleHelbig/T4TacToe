@@ -50,25 +50,17 @@ function Board({
   secondPlayer: string;
 }) {
   function handleClick(i: number) {
-    if(secondPlayer === '') {
       if (
         calculateWinner(squares) ||
         squares[i] ||
         isGameOver ||
-        isThinking ||
-        !xIsNext
+        isThinking 
       ) {
         return;
       }
       const nextSquares = squares.slice();
-      nextSquares[i] = 'X';
-      onPlay(nextSquares);
-    }
-    else {
-      const nextSquares = squares.slice();
       nextSquares[i] = xIsNext ? 'X' : 'O';
       onPlay(nextSquares);
-    }
   }
 
   
@@ -179,12 +171,22 @@ export default function Game({navigation, firstPlayer, secondPlayer}: {navigatio
       }
     }, [xIsNext, currentSquares, isGameOver]); // Trigger when it's computer's turn
   }
+  else {
+    useEffect(() => {
+      // Automatically make a move for the computer when it's its turn
+      if (!isGameOver) {
+        const availableSquares = currentSquares
+            .map((value, index) => (value === null ? index : null))
+            .filter(index => index !== null);
+        }      
+    }, [xIsNext, currentSquares, isGameOver]); // Trigger when it's player 2's turn
+  }
 
   function handlePlay(nextSquares: any) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    startTimer(); // Start timer for the next move
+    startTimer(); // Start game timer
     // Check if game has ended
     if (calculateWinner(nextSquares)) {
       setIsGameOver(true);
