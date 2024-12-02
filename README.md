@@ -21,6 +21,9 @@ Option 2) Manually install
 # using npm
 npm install --save react-native-sqlite-storage
 npm install --save react-native-splash-screen
+npm i react-native-gesture-handler
+npm i @react-navigation/native
+npm i @react-navigation/stack
 
 ```
 
