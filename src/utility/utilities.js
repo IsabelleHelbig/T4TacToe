@@ -1,12 +1,9 @@
-// We might need to test this block of code, but it's just a timer so it should be fine
-
 let timer = null; // The timer variable that will be used to start and stop the timer
 let gameTime = 0; // The time passed since the game started
-let playername = ""; // The name of the player
 
 // Function to start the timer
 export function startTimer() {
-    // We'll need to start this timer with useState probably
+    // We'll need to start this timer when the game starts to keep track of the time
     // If the timer is already running, do nothing
     if (timer) return;
   
@@ -18,7 +15,7 @@ export function startTimer() {
   
 // Function to stop the timer
 export function stopTimer() {
-    // Stop the timer. Probably call this function when the game is over, useState will be used here too? Either way it's just stopping the increments of gameTime
+    // Stop the timer. If the timer is not running, do nothing
     clearInterval(timer); 
     // Resets the timer variable for another game
     timer = null;     
