@@ -53,7 +53,7 @@ export default function OnePlayerNameScreen({
     if (!firstPlayer.trim()) {
       startShake();
     } else {
-      console.log('Name screen', firstPlayer);
+      // console.log('Name screen', firstPlayer);
       navigation.navigate('1PGame', {firstPlayer});
     }
   };

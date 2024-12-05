@@ -145,7 +145,7 @@ export default function Game({navigation, firstPlayer, secondPlayer}: {navigatio
   const currentSquares = history[currentMove];
   const [isThinking, setIsThinking] = useState(false);
    
-  console.log(`game screen, first player ${firstPlayer}, second player ${secondPlayer}`);
+  // console.log(`game screen, first player ${firstPlayer}, second player ${secondPlayer}`);
 
   if (secondPlayer === '') {
     useEffect(() => {

@@ -7,7 +7,7 @@ export default function OnePlayerGameScreen({route, navigation}: {route: any, na
 }): React.JSX.Element {
   const firstPlayer = route.params.firstPlayer;
   const secondPlayer = '';
-  console.log('1p game screen', firstPlayer);
+  // console.log('1p game screen', firstPlayer);
   return (
     <View style={[CommonStyles.background, styles.container]}>
       <Game navigation={navigation} firstPlayer={firstPlayer} secondPlayer={secondPlayer} />

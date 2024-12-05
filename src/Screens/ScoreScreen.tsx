@@ -18,7 +18,7 @@ const db = SQLite.openDatabase(
   },
   () => {},
   error => {
-    console.log(error);
+    // console.log(error);
   }
 ); 
 
@@ -40,7 +40,7 @@ if (PlayerWon == "X" && gametype == "1P" || gametype == "2P" && PlayerWon !== "D
     navigation.navigate('PostGame', {winnerName, gametype, firstPlayer, secondPlayer});
   };
   
-  console.log('Score screen', gametime, winnerName, score, PlayerWon);
+  // console.log('Score screen', gametime, winnerName, score, PlayerWon);
   function insertHighScore(PlayerWon: string, score: number, name: string) {
     if (PlayerWon == "O" && gametype == "1P" || PlayerWon == "Draw" && winnerName == "Draw") {
       return;
@@ -50,10 +50,10 @@ if (PlayerWon == "X" && gametype == "1P" || gametype == "2P" && PlayerWon !== "D
         'INSERT INTO HighScores (name, score) VALUES (?, ?)',
         [name, score],
         (tx, results) => {
-        console.log('Rows inserted successfully:', results.rowsAffected);        
+        // console.log('Rows inserted successfully:', results.rowsAffected);        
         },
         (tx, error) => {
-        console.log('Error inserting rows:', error);
+        // console.log('Error inserting rows:', error);
         }
     );
     });    
